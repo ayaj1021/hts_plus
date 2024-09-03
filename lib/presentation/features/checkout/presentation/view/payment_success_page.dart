@@ -16,6 +16,7 @@ class PaymentSuccessPage extends ConsumerStatefulWidget {
     required this.successMessage,
     required this.reference,
   });
+
   final String successMessage;
   final String reference;
 
@@ -25,6 +26,7 @@ class PaymentSuccessPage extends ConsumerStatefulWidget {
 
 class _PaymentSuccessPageState extends ConsumerState<PaymentSuccessPage> {
   late List<GetCartData> cartItems;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -46,7 +48,7 @@ class _PaymentSuccessPageState extends ConsumerState<PaymentSuccessPage> {
       reference: widget.reference,
       orderNote: '',
       orderType: 'In-app',
-      paymentType: 'card',
+      paymentType: 'Card',
       isNewCustomer: false,
     );
 
@@ -56,7 +58,8 @@ class _PaymentSuccessPageState extends ConsumerState<PaymentSuccessPage> {
             context.showError(message: error);
           },
           onSuccess: () {
-             displayMessage(context: context, message:'Your order is being processed');
+            displayMessage(
+                context: context, message: 'Your order is being processed');
             // context.hideOverLay();
 
             Navigator.push(
@@ -103,11 +106,6 @@ class _PaymentSuccessPageState extends ConsumerState<PaymentSuccessPage> {
                         isLoading: isLoading,
                         onTap: () {
                           _checkOut();
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const CheckoutPage()));
                         },
                         text: 'Continue Shopping',
                       );
