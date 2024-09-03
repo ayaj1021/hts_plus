@@ -17,11 +17,12 @@ class OrderSummarySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 24,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(32),

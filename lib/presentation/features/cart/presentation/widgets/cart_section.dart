@@ -39,13 +39,13 @@ class _CartSectionState extends ConsumerState<CartSection> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: switch (loadState) {
-          LoadState.loading => Center(child: CircularProgressIndicator()),
-          LoadState.error => Text('Error'),
+          LoadState.loading => const Center(child: CircularProgressIndicator()),
+          LoadState.error => const Text('Error'),
           _ => SingleChildScrollView(
               child: Column(
                 children: [
                   cart.isEmpty
-                      ? EmptyCartText()
+                      ? const EmptyCartText()
                       : UnEmptyCartSection(
                           cartItems: _cartItems,
                         ),

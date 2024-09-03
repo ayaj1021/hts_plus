@@ -1,9 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:hts_plus/presentation/features/checkout/presentation/view/checkout_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hts_plus/core/extensions/overlay_extension.dart';
+import 'package:hts_plus/core/utils/enums.dart';
+import 'package:hts_plus/core/utils/show_message.dart';
+import 'package:hts_plus/presentation/features/cart/data/model/get_cart_model.dart';
+import 'package:hts_plus/presentation/features/cart/presentation/notifier/get_cart_notifier.dart';
+import 'package:hts_plus/presentation/features/checkout/data/model/check_out_request.dart';
+import 'package:hts_plus/presentation/features/checkout/presentation/notifier/check_out_notifier.dart';
+import 'package:hts_plus/presentation/features/dashboard/widgets/dashboard.dart';
+import 'package:hts_plus/presentation/general_widgets/app_button.dart';
 
-class PaymentSuccessPage extends StatelessWidget {
-  const PaymentSuccessPage({super.key, required this.successMessage});
+class PaymentSuccessPage extends ConsumerStatefulWidget {
+  const PaymentSuccessPage({
+    super.key,
+    required this.successMessage,
+    required this.reference,
+  });
   final String successMessage;
+  final String reference;
+
+  @override
+  ConsumerState<PaymentSuccessPage> createState() => _PaymentSuccessPageState();
+}
+
+class _PaymentSuccessPageState extends ConsumerState<PaymentSuccessPage> {
+  late List<GetCartData> cartItems;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Fetch all stores and update the state accordingly.
+      await ref.read(getCartNotifier.notifier).getCart();
+      setState(() {
+        cartItems = ref.watch(getCartNotifier.select((v) => v.getCartData));
+      });
+    });
+
+    super.initState();
+  }
+
+  void _checkOut() async {
+    final data = CheckOutRequest(
+      productId: "${cartItems.first.productId}",
+      quantity: "${cartItems.first.quantity}",
+      couponCode: '',
+      reference: widget.reference,
+      orderNote: '',
+      orderType: 'In-app',
+      paymentType: 'card',
+      isNewCustomer: false,
+    );
+
+    ref.read(checkOutNotifier.notifier).checkOut(
+          data: data,
+          onError: (error) {
+            context.showError(message: error);
+          },
+          onSuccess: () {
+             displayMessage(context: context, message:'Your order is being processed');
+            // context.hideOverLay();
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const DashBoard(),
+              ),
+            );
+          },
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,28 +90,28 @@ class PaymentSuccessPage extends StatelessWidget {
                           color: Colors.black,
                         )),
                     const Spacer(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const CheckoutPage()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.teal,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              elevation: 5.0),
-                          child: const Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: Text('Back to Checkout Screen',
-                                  style: TextStyle(fontSize: 20)))),
-                    ),
+                    Consumer(builder: (context, re, c) {
+                      final isLoading = re.watch(
+                        checkOutNotifier
+                            .select((v) => v.applyCouponState.isLoading),
+                      );
+                      return ButtonWidget(
+                        isEnabled: re.watch(
+                              checkOutNotifier.select((v) => v.inputValid),
+                            ) &&
+                            !isLoading,
+                        isLoading: isLoading,
+                        onTap: () {
+                          _checkOut();
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const CheckoutPage()));
+                        },
+                        text: 'Continue Shopping',
+                      );
+                    }),
                     const Spacer(),
                   ],
                 ))));

@@ -12,7 +12,7 @@ class CheckOutRepository {
 //  final RestClient _restClient;
   final ApiService _apiService;
   GetCartTotalData getCartTotalData = GetCartTotalData();
-  Future<AppResponseModel> applyCoupon({
+  Future<AppResponseModel> checkOut({
     required String productId,
     required String quantity,
     required String couponCode,
@@ -56,7 +56,7 @@ class CheckOutRepository {
   }
 }
 
-final applyCouponRepositoryProvider = Provider<CheckOutRepository>(
+final checkOutRepositoryProvider = Provider<CheckOutRepository>(
   (ref) => CheckOutRepository(
     ref.read(apiServiceProvider),
   ),

@@ -24,6 +24,7 @@ class LoginRepository {
       final storage = await SecureStorage();
       await storage.saveUserToken(response.data['data']['token']);
       await storage.saveUserId(response.data['data']['id']);
+      await storage.saveUserEmail(response.data['data']['email']);
       _token = await storage.getUserToken();
       return data;
     } on DioException catch (e) {

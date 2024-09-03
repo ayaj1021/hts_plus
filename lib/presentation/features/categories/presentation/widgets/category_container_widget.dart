@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hts_plus/core/extensions/space_extension.dart';
 import 'package:hts_plus/core/extensions/text_theme_extension.dart';
 import 'package:hts_plus/core/theme/app_colors.dart';
+import 'package:hts_plus/presentation/features/stores/presentation/widgets/category_section.dart';
 
 class CategoryContainer extends StatelessWidget {
   const CategoryContainer({super.key, required this.image, required this.name});
@@ -12,8 +13,8 @@ class CategoryContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 9),
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+      margin: const EdgeInsets.only(right: 9),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
@@ -23,16 +24,20 @@ class CategoryContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundImage: CachedNetworkImageProvider(image),
-            child: CachedNetworkImage(
-              imageUrl: image,
-              placeholder: (context, url) =>
-                  Image.asset('assets/logo/hts_plus_logo.png'),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
+          // CircleAvatar(
+          //   radius: 30,
+          //   backgroundImage: 
+            
+          //   CachedNetworkImageProvider(image),
+          //   child: CachedNetworkImage(
+          //     imageUrl: image,
+          //     placeholder: (context, url) =>
+          //         Image.asset('assets/logo/hts_plus_logo.png'),
+          //     errorWidget: (context, url, error) => const Icon(Icons.error),
+          //   ),
+          // ),
+
+          CachedNetworkDisplay(imageUrl: image,),
           8.hSpace,
           Text(
             name,

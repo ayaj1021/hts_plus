@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hts_plus/core/extensions/build_context_extensions.dart';
 import 'package:hts_plus/core/extensions/overlay_extension.dart';
 import 'package:hts_plus/core/extensions/space_extension.dart';
@@ -28,10 +27,13 @@ class CartItemCard extends ConsumerStatefulWidget {
 
 class _CartItemCardState extends ConsumerState<CartItemCard> {
   void _deleteCart(productId) {
+    context.showLoading();
     ref.read(deleteCartNotifier.notifier).deleteCart(
           productId: productId,
           onError: (error) {
-            context.showError(message: error);
+            context
+              ..hideOverLay()
+              ..showError(message: error);
           },
           onSuccess: () {
             displayMessage(
@@ -43,7 +45,7 @@ class _CartItemCardState extends ConsumerState<CartItemCard> {
             context
               ..hideOverLay
               ..pop();
-             // ..popAndPushNamed(CartScreen.routeName);
+            // ..popAndPushNamed(CartScreen.routeName);
           },
         );
   }
@@ -55,117 +57,107 @@ class _CartItemCardState extends ConsumerState<CartItemCard> {
     // final quantity = ref.watch(itemQuantityProvider)[widget.id] ?? 1;
     // final loadState =
     //     ref.watch(deleteCartNotifier.select((v) => v.deleteCartState));
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(bottom: 16),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: AppColors.secondarySwatch.shade50,
-                     backgroundImage: NetworkImage(widget.image),
-                  ),
-                  18.wSpace,
-                  SizedBox(
-                    width: 120.w,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.itemName,
-                          style: context.textTheme.s13w500.copyWith(
-                              color: AppColors.primarySwatch.shade900),
-                        ),
-                        10.hSpace,
-                        Text(
-                          'N${widget.itemAmount}',
-                          style: context.textTheme.s11w400
-                              .copyWith(color: AppColors.primary8F959E),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
+    return Container(
+      // alignment: Alignment.center,
+      //margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: AppColors.secondarySwatch.shade50,
+                  backgroundImage: NetworkImage(widget.image),
+                ),
+                18.wSpace,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.favorite_border,
-                          color: AppColors.primaryB0B0B0),
-                      10.wSpace,
-                      GestureDetector(
-                        onTap: () {
-                          //   ref.watch(deleteCartNotifier.notifier)
-                          _deleteCart(widget.id);
-                        },
-                        child: Icon(Icons.delete_outline_outlined,
-                            color: AppColors.red),
+                      Text(
+                        widget.itemName,
+                        style: context.textTheme.s13w500
+                            .copyWith(color: AppColors.primarySwatch.shade900),
+                        // maxLines: 2,
+                      ),
+                      10.hSpace,
+                      Text(
+                        'N${widget.itemAmount}',
+                        style: context.textTheme.s11w400
+                            .copyWith(color: AppColors.primary8F959E),
                       ),
                     ],
                   ),
-                  10.hSpace,
-                  Container(
-                    //height: 23.h,
-                    padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(74),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              ref
-                                  .read(itemQuantityProvider.notifier)
-                                  .decreaseQuantity('${widget.id}');
-                            },
-                            child: Icon(Icons.remove, color: AppColors.white)),
-                        15.wSpace,
-                        Text(
-                          '$itemsInCart pcs',
-                          style: context.textTheme.s11w700
-                              .copyWith(color: AppColors.white),
-                        ),
-                        15.wSpace,
-                        GestureDetector(
-                            onTap: () {
-                              ref
-                                  .read(itemQuantityProvider.notifier)
-                                  .increaseQuantity('${widget.id}');
-                            },
-                            child: Icon(Icons.add, color: AppColors.white)),
-                      ],
-                    ),
-                  )
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.favorite_border,
+                      color: AppColors.primaryB0B0B0),
+                  10.wSpace,
+                  GestureDetector(
+                    onTap: () {
+                      //   ref.watch(deleteCartNotifier.notifier)
+                      _deleteCart(widget.id);
+                    },
+                    child: const Icon(Icons.delete_outline_outlined,
+                        color: AppColors.red),
+                  ),
                 ],
               ),
+              10.hSpace,
+              Container(
+                //height: 23.h,
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.circular(74),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(itemQuantityProvider.notifier)
+                              .decreaseQuantity('${widget.id}');
+                        },
+                        child:
+                            const Icon(Icons.remove, color: AppColors.white)),
+                    15.wSpace,
+                    Text(
+                      '$itemsInCart pcs',
+                      style: context.textTheme.s11w700
+                          .copyWith(color: AppColors.white),
+                    ),
+                    15.wSpace,
+                    GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(itemQuantityProvider.notifier)
+                              .increaseQuantity('${widget.id}');
+                        },
+                        child: const Icon(Icons.add, color: AppColors.white)),
+                  ],
+                ),
+              )
             ],
           ),
-        ),
-        // loadState.isLoading
-        //     ? Padding(
-        //         padding: const EdgeInsets.all(4),
-        //         child: CircularProgressIndicator(
-        //           color: AppColors.primaryColor,
-        //         ),
-        //       )
-        //     : SizedBox.shrink()
-      ],
+        ],
+      ),
     );
   }
 }
-

@@ -22,7 +22,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: CheckOutScreenAppBar(),
             ),

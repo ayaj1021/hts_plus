@@ -30,7 +30,7 @@ class _MapScreenState extends State<MapScreen>
     zoom: 18,
   );
 
-  static final Marker _kGooglePlexMarker = Marker(
+  static final Marker _kGooglePlexMarker = const Marker(
       markerId: MarkerId(
         '_kGooglePlex',
       ),
@@ -45,15 +45,15 @@ class _MapScreenState extends State<MapScreen>
       zoom: 19.151926040649414);
 
   static final Marker _kLakeMarker = Marker(
-    markerId: MarkerId(
+    markerId: const MarkerId(
       '_kLakeMarker',
     ),
-    infoWindow: InfoWindow(title: 'Lake Plex'),
+    infoWindow: const InfoWindow(title: 'Lake Plex'),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    position: LatLng(37.43296265331129, -122.08832357078792),
+    position: const LatLng(37.43296265331129, -122.08832357078792),
   );
 
-  static final Polyline _kPolyline = Polyline(
+  static final Polyline _kPolyline = const Polyline(
       polylineId: PolylineId('_kPolyline'),
       points: [
         LatLng(6.723354, 3.3937225),
@@ -61,7 +61,7 @@ class _MapScreenState extends State<MapScreen>
       ],
       width: 5);
 
-  static final Polygon _kPolygon = Polygon(
+  static final Polygon _kPolygon = const Polygon(
     polygonId: PolygonId('_kPolygon'),
   );
 
@@ -100,7 +100,7 @@ class _MapScreenState extends State<MapScreen>
   }
 
   Future<void> _goToLocation() async {
-    final GoogleMapController controller = await _googleMapsController.future;
+   // final GoogleMapController controller = await _googleMapsController.future;
     context.pushNamed(DashBoard.routeName);
     // controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }

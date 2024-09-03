@@ -75,12 +75,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 21, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 15),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                LoginAppBar(),
-                AuthTitle(
+                const LoginAppBar(),
+                const AuthTitle(
                   title: Strings.pickupWhereYouLeftOff,
                 ),
                 40.hSpace,
