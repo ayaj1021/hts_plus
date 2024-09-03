@@ -30,7 +30,7 @@ abstract class RestClient {
     @Body() LoginRequest loginRequest,
   );
 
-  @POST('/mobile/verify-account')
+  @POST('auth/verify-email?token=971691')
   Future<AppResponseModel<VerifySignUpOtpResponse>> verifySignUpOtp(
       @Body() VerifySignUpOtpRequest verifySignUpOtpRequest);
 

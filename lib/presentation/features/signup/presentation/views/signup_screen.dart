@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hts_plus/core/extensions/build_context_extensions.dart';
 import 'package:hts_plus/core/extensions/overlay_extension.dart';
 import 'package:hts_plus/core/extensions/space_extension.dart';
-import 'package:hts_plus/core/extensions/strings_extensions.dart';
 import 'package:hts_plus/core/extensions/text_theme_extension.dart';
 import 'package:hts_plus/core/theme/app_colors.dart';
 import 'package:hts_plus/core/utils/enums.dart';
+import 'package:hts_plus/core/utils/show_message.dart';
 import 'package:hts_plus/core/utils/strings.dart';
 import 'package:hts_plus/core/utils/validators.dart';
 import 'package:hts_plus/presentation/features/login/presentation/view/login_screen.dart';
@@ -72,7 +71,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void _signUp() {
-    print('ayaj@gmail.com'.redactedEmail);
     ref.read(registerNotifier.notifier).signUp(
           data: SignUpRequest(
             email: _emailController.text.trim(),
@@ -83,14 +81,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             regionId: 1.toString(),
           ),
           onError: (error) {
-            context.showError(message: 'User already exists');
+            context.showError(message: error);
           },
           onSuccess: () {
             context
               ..hideOverLay()
-              ..showSuccess(
-                  message: 'Otp has been sent to your registered email')
               ..pushNamed(SignUpOtpScreen.routeName);
+            displayMessage(
+                context: context,
+                message: 'Otp has been sent to your registered email');
           },
         );
   }
@@ -100,15 +99,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 21, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 15),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
               onChanged: () => setState(() {}),
               child: Column(
                 children: [
-                 // SignUpAppBar(),
-                  AuthTitle(
+                  // SignUpAppBar(),
+                  const AuthTitle(
                     title: Strings.letsGetYouStarted,
                   ),
                   40.hSpace,
