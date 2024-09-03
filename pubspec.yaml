@@ -37,8 +37,8 @@ dependencies:
   flutter_polyline_points: ^2.1.0
   http: ^1.2.2
   webview_flutter: ^4.8.0
-  flutter_paystack: ^1.0.5
-  
+  flutter_paystack: ^1.0.7
+
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -58,6 +58,10 @@ dependency_overrides:
   http: ^0.13.0-nullsafety.2
 
   flutter_lints: ^3.0.0
+  flutter_paystack:
+    git:
+      url: https://github.com/I-driod/flutter_paystack.git
+      ref: master
 
 flutter:
 

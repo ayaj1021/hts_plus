@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hts_plus/core/theme/app_colors.dart';
 import 'package:hts_plus/presentation/general_widgets/app_button.dart';
 
+import 'checkout_page.dart';
+
 class PaystackScreen extends StatefulWidget {
   const PaystackScreen({Key? key}) : super(key: key);
+
   @override
   State<PaystackScreen> createState() => _PaystackScreenState();
 }
@@ -42,7 +45,7 @@ class _PaystackScreenState extends State<PaystackScreen> {
                               }
                               return null;
                             },
-                            decoration:  const InputDecoration(
+                            decoration: const InputDecoration(
                                 prefix: Text('₦',
                                     style: TextStyle(color: AppColors.green)),
                                 hintText: '2000',
@@ -78,14 +81,13 @@ class _PaystackScreenState extends State<PaystackScreen> {
                             width: MediaQuery.of(context).size.width,
                             child: ButtonWidget(
                               onTap: () {
-                                // if (_formKey.currentState!.validate()) {
-                                
-                                // }
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const CheckoutPage()));
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const CheckoutPage()));
+                                }
                               },
                               text: 'Proceed to Pay',
                             )),
