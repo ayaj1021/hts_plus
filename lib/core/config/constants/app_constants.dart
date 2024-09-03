@@ -6,7 +6,9 @@ class AppConstants {
   static const applyCoupon = '$baseUrl/admin/apply-coupon';
   static const login = '$baseUrl/auth/login';
   static const forgotPassword = '$baseUrl/auth/forgot-password';
-  static  resetPassword(String token) => '$baseUrl/auth/reset-password?token=$token';
+  static resetPassword(String token) =>
+      '$baseUrl/auth/reset-password?token=$token';
+  static verifyEmail(String otp) => '$baseUrl/auth/verify-email?token=$otp';
   static getAllProductsById(String id) => '$baseUrl/admin/product/$id';
   static getCart(String id) => '$baseUrl/carts/$id';
   static getWishList(String id) => '$baseUrl/wish/view/$id';

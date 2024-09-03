@@ -1,18 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hts_plus/core/database/database.dart';
 import 'package:hts_plus/core/extensions/build_context_extensions.dart';
 import 'package:hts_plus/core/extensions/overlay_extension.dart';
 import 'package:hts_plus/core/extensions/space_extension.dart';
-import 'package:hts_plus/core/extensions/strings_extensions.dart';
 import 'package:hts_plus/core/extensions/text_theme_extension.dart';
 import 'package:hts_plus/core/theme/app_colors.dart';
 import 'package:hts_plus/core/utils/enums.dart';
+import 'package:hts_plus/core/utils/show_message.dart';
 import 'package:hts_plus/core/utils/strings.dart';
 import 'package:hts_plus/core/utils/validators.dart';
 import 'package:hts_plus/presentation/features/map_location/presentation/views/map_screen.dart';
-import 'package:hts_plus/presentation/features/signup/data/model/verify_sign_up_otp_request.dart';
 import 'package:hts_plus/presentation/features/signup/presentation/notifier/verify_sign_up_otp_notifer.dart';
 import 'package:hts_plus/presentation/features/signup/presentation/views/signup_screen.dart';
 import 'package:hts_plus/presentation/features/signup/presentation/widgets/sign_up_otp_input_section.dart';
@@ -47,45 +45,26 @@ class _SignUpOtpScreenState extends ConsumerState<SignUpOtpScreen> {
   @override
   void initState() {
     super.initState();
-    getUserEmail();
+
     _codeController = TextEditingController()
       ..addListener(_validateInput)
       ..addListener(_validateInput);
   }
 
   void _validateInput() async {
-    final storage = await SecureStorage();
-
-    final email = await storage.getUserEmail();
     ref.read(verifySignUpOtpNotifier.notifier).allInputValid(
-          emailValid: Validators.email()(email) == null,
           confirmationCode: Validators.email()(_codeController.text) == null,
         );
   }
 
-  getUserEmail() async {
-    final storage = await SecureStorage();
-
-    final email = await storage.getUserEmail();
-
-    setState(() {
-      userEmail = email.toString();
-    });
-  }
-
   void _verifySignUpOtp() async {
-    final storage = await SecureStorage();
-    final email = await storage.getUserEmail();
-    print('$email'.redactedEmail);
     ref.read(verifySignUpOtpNotifier.notifier).verifySignUpOtp(
-          data: VerifySignUpOtpRequest(
-            email: email,
-            confirmationCode: _codeController.text.trim(),
-          ),
+          otp: _codeController.text.trim(),
           onError: (error) {
-            context.showError(message: 'Invalid confirmation code');
+            context.showError(message: error);
           },
           onSuccess: () {
+            displayMessage(context: context, message: 'Account verified');
             context
               ..hideOverLay()
               ..pushNamed(MapScreen.routeName);
@@ -99,14 +78,14 @@ class _SignUpOtpScreenState extends ConsumerState<SignUpOtpScreen> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 21, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 15),
           child: Form(
             key: _formKey,
             onChanged: () => setState(() {}),
             child: Column(
               children: [
-                SignUpOtpAppBar(),
-                AuthTitle(
+                const SignUpOtpAppBar(),
+                const AuthTitle(
                   title: Strings.emailCodeSentTo,
                 ),
                 12.hSpace,

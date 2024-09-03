@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hts_plus/core/config/exception/exception_handler.dart';
 import 'package:hts_plus/core/config/exception/logger.dart';
 import 'package:hts_plus/core/utils/enums.dart';
-import 'package:hts_plus/presentation/features/signup/data/model/verify_sign_up_otp_request.dart';
 import 'package:hts_plus/presentation/features/signup/data/repository/verify_signup_otp_repository.dart';
 import 'package:hts_plus/presentation/features/signup/presentation/notifier/verify_sign_up_otp_state.dart';
 
@@ -10,7 +9,7 @@ class VerifySignUpOtpNotifier
     extends AutoDisposeNotifier<VerifySignUpOtpNotifierState> {
   VerifySignUpOtpNotifier();
 
-  late VerifySignUpOtpRepository _verifySignUpOtpRepository;
+  late final VerifySignUpOtpRepository _verifySignUpOtpRepository;
   // late UserAuthRepository _userAuthRepository;
   // late UserRepository _userRepository;
   @override
@@ -21,29 +20,29 @@ class VerifySignUpOtpNotifier
   }
 
   void allInputValid({
-    required bool emailValid,
     required bool confirmationCode,
   }) {
-    state = state.copyWith(inputValid: emailValid && confirmationCode);
+    state = state.copyWith(inputValid: confirmationCode);
   }
 
   Future<void> verifySignUpOtp({
-    required VerifySignUpOtpRequest data,
+    required String otp,
     required void Function(String error) onError,
     required void Function() onSuccess,
   }) async {
     state = state.copyWith(verifySignUpOtpState: LoadState.loading);
 
     try {
-      final success = await _verifySignUpOtpRepository.verifySignUpOtp(data);
-      debugLog(data);
+      final success =
+          await _verifySignUpOtpRepository.verifySignUpOtp(otp: otp);
+      debugLog(otp);
       // await SecureStorage().saveUserToken('${success.email}');
       if (success.success == Status.error) {
-        // if (success.error.isNotEmpty) {
+        if (success.error.isNotEmpty) {
         throw success.error.map((e) => e.email);
-        // } else {
-        //   throw success.message ?? 'Validation Error';
-        // }
+        } else {
+          throw success.message ?? 'Validation Error';
+        }
       }
 
       state = state.copyWith(verifySignUpOtpState: LoadState.idle);
@@ -68,8 +67,7 @@ class VerifySignUpOtpNotifier
   // }
 }
 
-  final verifySignUpOtpNotifier = NotifierProvider.autoDispose<
-      VerifySignUpOtpNotifier, VerifySignUpOtpNotifierState>(
-    VerifySignUpOtpNotifier.new,
-  );
-
+final verifySignUpOtpNotifier = NotifierProvider.autoDispose<
+    VerifySignUpOtpNotifier, VerifySignUpOtpNotifierState>(
+  VerifySignUpOtpNotifier.new,
+);

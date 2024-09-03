@@ -16,12 +16,12 @@ class _EnterLocationScreenState extends State<EnterLocationScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: SafeArea(child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: ListView(
           children: [
-            MapScreenAppBar(),
+            const MapScreenAppBar(),
             20.hSpace,
-            LocationSearchSection()
+            const LocationSearchSection()
           ],
         ),
       )),

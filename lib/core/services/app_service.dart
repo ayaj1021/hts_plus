@@ -10,6 +10,8 @@ class ApiService {
 
   ApiService({Dio? dio}) : _dio = dio ?? Dio() {
     _dio.options..baseUrl = AppConstants.baseUrl;
+
+    //_dio.options.baseUrl = AppConstants.baseUrl;
     //..connectTimeout = const Duration(seconds: 60)
     // ..receiveTimeout = const Duration(seconds: 60);
   }
@@ -17,7 +19,7 @@ class ApiService {
   Future<Response> get(String path,
       {Map<String, dynamic>? queryParameters, String? token}) async {
     // final storage = await SecureStorage();
-    final _token = '';
+    const _token = '';
     //await storage.getUserToken();
     //final _token = await SecureStorage().getUserToken();
     final response = await _dio.get(
@@ -39,6 +41,23 @@ class ApiService {
     // await storage.getUserToken();
     //  final _token = await SecureStorage().getUserToken();
     final response = await _dio.post(
+      path,
+      data: data,
+      options: Options(headers: _buildHeaders(_token)),
+    );
+    log('${response.data}');
+
+    return response;
+  }
+
+  Future<Response> patch(
+      {required String path,
+      String? message,
+      required Map<String, dynamic> data,
+      String? token}) async {
+    log('$data');
+    final _token = '';
+    final response = await _dio.patch(
       path,
       data: data,
       options: Options(headers: _buildHeaders(_token)),
