@@ -7,7 +7,9 @@ import 'package:hts_plus/presentation/features/checkout/presentation/notifier/ch
 
 class CheckOutNotifier extends AutoDisposeNotifier<CheckOutNotifierState> {
   CheckOutNotifier();
+
   late final CheckOutRepository _checkOutRepository;
+
   @override
   CheckOutNotifierState build() {
     _checkOutRepository = ref.read(checkOutRepositoryProvider);
@@ -22,12 +24,14 @@ class CheckOutNotifier extends AutoDisposeNotifier<CheckOutNotifierState> {
     try {
       state = state.copyWith(applyCouponState: LoadState.loading);
       final success = await _checkOutRepository.checkOut(
-        productId: data.productId,
-        quantity: data.quantity,
-        couponCode: data.couponCode,
+        customerId: data.customerId,
         reference: data.reference,
         orderNote: data.orderNote,
+        orderType: data.orderType,
         paymentType: data.paymentType,
+        isNewCustomer: data.isNewCustomer,
+        orderItems: data.orderItems,
+        couponCode: data.couponCode,
       );
 
       if (success.success == Status.error) {
