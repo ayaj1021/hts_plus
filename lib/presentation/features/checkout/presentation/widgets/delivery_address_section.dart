@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hts_plus/core/extensions/space_extension.dart';
 import 'package:hts_plus/core/extensions/text_theme_extension.dart';
@@ -12,11 +11,11 @@ class DeliveryAddressSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 24,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.white,
       ),
       child: Column(
@@ -51,7 +50,7 @@ class DeliveryAddressSection extends StatelessWidget {
           ),
           22.hSpace,
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 12,
             ),

@@ -31,23 +31,23 @@ class _TotalAmountSectionState extends ConsumerState<TotalAmountSection> {
     final data = ref.watch(applyCouponNotifier).getCartTotalData;
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 24,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.white,
       ),
       child: Column(
         children: [
           TotalItemsPriceSection(
-            totalAmount: "${widget.totalAmount}",
+            totalAmount: widget.totalAmount,
             
             //"${getCartTotalData.subTotal}",
             Subtotal: "${getCartTotalData.subTotal ?? 0}",
             deliveryFee: "${data?.shippingFee ?? 0}",
             balanceInWallet: "${data?.subTotal ?? 0}",
-            grandTotal: "${widget.totalAmount}",
+            grandTotal: widget.totalAmount,
           )
         ],
       ),

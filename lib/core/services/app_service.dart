@@ -9,7 +9,7 @@ class ApiService {
   String? message;
 
   ApiService({Dio? dio}) : _dio = dio ?? Dio() {
-    _dio.options..baseUrl = AppConstants.baseUrl;
+    _dio.options.baseUrl = AppConstants.baseUrl;
 
     //_dio.options.baseUrl = AppConstants.baseUrl;
     //..connectTimeout = const Duration(seconds: 60)

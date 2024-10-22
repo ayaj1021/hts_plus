@@ -117,7 +117,7 @@ class _CheckOutState extends ConsumerState<CheckOutSection> {
             displayMessage(
                 context: context,
                 message: 'Your payment was successful\nyour '
-                    'oder is being processed');
+                    'order is being processed');
 
             Navigator.push(
               context,

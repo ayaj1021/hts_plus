@@ -86,8 +86,8 @@ class _ProductsSectionState extends ConsumerState<ProductsSection> {
     final bestDealsState =
         ref.watch(getAllStoreProductsNotifier.select((v) => v.loadState));
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 17, vertical: 38),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 38),
+      decoration: const BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(32),
